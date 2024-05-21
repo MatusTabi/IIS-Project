@@ -1,0 +1,404 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+form {
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    flex: 1;
+}
+
+.main-window {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: flex-start;
+    margin: 20px;
+}
+
+.manage-traffic-line,
+.manage-stops,
+.add-stops,
+.add-vehicle,
+.add-times {
+    position: relative;
+    min-width: 49%;
+    min-height: 250px;
+    margin-bottom: 10px;
+    background-color: white;
+    border-radius: 7px;
+    padding: 1% 1%;
+}
+
+.add-stops,
+.add-vehicle {
+    min-height: 400px;
+}
+
+.add-times {
+    min-width: 60%;
+    min-height: 350px;
+}
+
+.add-stops .manage-tl,
+.manage-vehicles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: stretch;
+    padding: 10px 10px;
+}
+
+.manage-vehicles .inputs {
+    border-right: 1px solid lightgray;
+}
+
+.add-stops .manage-tl .inputs,
+.manage-vehicles .inputs {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.add-stops .manage-tl .inputs form {
+    box-sizing: border-box;
+    margin-bottom: 0;
+}
+
+.add-stops .manage-tl .inputs .add-stops-to-tl {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.tl-select {
+    margin-bottom: 10px;
+    width: 200px;
+}
+
+.traffic-line-header,
+.stop-header,
+.add-stops-header,
+.manage-tl .inputs h2,
+.add-vehicle-header,
+.add-times-header {
+    font-size: 1.2em;
+    font-weight: bold;
+    border-bottom: 2px solid black;
+    text-align: center;
+}
+
+.manage-tl .inputs h2 {
+    margin-bottom: 20px;
+}
+
+.create-line-header,
+.delete-line-header,
+.create-stop-header,
+.delete-stop-header,
+.new-vehicle-header,
+.line-header,
+.from-to-header {
+    font-size: 1em;
+    text-align: left;
+}
+
+.line-header,
+.from-to-header {
+    text-align: center;
+}
+
+.from-to-header {
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 10px;
+}
+
+.create-traffic-line,
+.delete-traffic-line,
+.create-stop,
+.delete-stop {
+    position: absolute;
+    top: 20%;
+    width: 48%;
+    height: 80%;
+    padding: 10px;
+}
+
+.delete-traffic-line,
+.delete-stop {
+    left: 50%;
+}
+
+.inputbox {
+    position: relative;
+    margin: 30px 0;
+    width: 100%;
+    display: flex;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputbox input,
+.select-tl-container input,
+.add-stops-to-tl input,
+.manage-vehicles .inputs input,
+.vehicle-stats input,
+.stop-list input {
+    display: block;
+    width: 200px;
+    border: none;
+    outline: 0;
+    border-bottom: 2px solid black;
+    font-size: 1em;
+}
+
+.stop-list input {
+    font-size: small;
+}
+
+.add-stops-to-tl input {
+    margin-bottom: 20px;
+}
+
+.create-line-button, 
+.delete-line-button,
+.create-stop-button,
+.delete-stop-button,
+.select-tl-button,
+.add-new-stops-button,
+.add-vehicle-button,
+.create-departure {
+    margin: auto;
+    width: 20%;
+    height: 30px;
+    outline: none;
+    border: none;
+    border-radius: 7px;
+    background-color: rgb(9, 151, 239);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.add-new-stops-button,
+.add-vehicle-button,
+.create-departure {
+    width: 40%;
+    background-color: greenyellow;
+}
+
+.add-vehicle-button {
+    margin-top: 10px;
+    width: 60%;
+}
+
+.create-departure {
+    margin-top: 10px;
+}
+
+.error, 
+.success {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+    color: white;
+    margin: 10px auto;
+    border-radius: 7px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.success {
+    background-color: rgb(0, 239, 0);
+}
+
+.select-tl {
+    position: relative;
+    display: flex;
+    width: 98%;
+    height: 50px;
+    margin-bottom: 40px;
+}
+
+.select-tl-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.list-of-stops,
+.list-of-vehicles {
+    width: 50%;
+    height: 360px;
+    overflow-y: auto;
+    border: 1px solid black;
+    padding: 10px 0;
+    border-radius: 7px;
+    display: flex;
+}
+
+.list-of-vehicles {
+    width: 60%;   
+    border: none;
+    padding: 10px;
+    flex-direction: column;
+}
+
+.list-of-stops input {
+    width: 150px;
+}
+
+.list-of-stops .delete-column {
+    width: 10%;
+    height: 100%;
+    border-right: 1px solid lightgray;
+    text-align: center;
+}
+
+.list-of-stops .delete-column a {
+    text-decoration: none;
+    color: black;
+}
+
+.list-of-stops .stops {
+    width: 70%;
+    height: 100%;
+    border-right: 1px solid lightgray;
+    padding: 0 5px;
+}
+
+.list-of-stops .stops-number {
+    width: 20%;
+    height: 100%;
+    text-align: center;
+}
+
+.delete-stop-from-tl {
+    outline: none;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.adding-stop-error {
+    width: 100%;
+    text-align: center;
+    background-color: red;
+    color: white;
+}
+
+.underscored {
+    text-decoration: underline;
+}
+
+select {
+    padding: 0 5px;
+}
+
+img {
+    position: relative;
+    width: 100%;
+    height: 250px
+}
+
+.vehicle-stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.vehicle-stats p input {
+    width: 100px;
+    color: black;
+    margin-left: 20px;
+}
+
+.vehicle-stats p {
+    display: flex;
+    flex-direction: row;
+}
+
+.edit-vehicle-button {
+    width: 20px;
+}
+
+.margin {
+    margin-left: 20px;
+}
+
+hr {
+    border: 1px solid black;
+    margin-bottom: 10px;
+}
+
+.vl {
+    border-left: 1px solid black;
+    height: 100%;
+}
+
+.malfunction {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.malfunction .message {
+    width: 320px;
+    border-right: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+}
+
+.create-request-button {
+    width: 20px;
+}
+
+.create-request {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    height: 300px;
+    overflow-y: auto;
+}
+
+.traffic-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.from-to {
+    width: 49%;
+    /* border: 1px solid black; */
+    /* border-radius: 7px; */
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.stop-list {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.stop-list p {
+    width: 70%;
+}
+
+.stop-list input{
+    width: 25%;
+    
+}

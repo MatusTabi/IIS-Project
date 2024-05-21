@@ -1,0 +1,191 @@
+td {
+    border-top: 2px solid black;
+    padding: 8px 8px;
+}
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: lightgrey;
+}
+tr:hover{
+    background-color: bisque;
+}   
+.req{
+    overflow-y: auto;
+    word-wrap: break-word;
+    max-width: 180px;
+}
+.rep{
+    overflow-y: auto;
+    word-wrap: break-word;
+    max-width: 180px;
+}
+.state{
+    overflow-y: auto;
+    word-wrap: break-word;
+    max-width: 100px;
+}
+.table-container{
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: white;
+    width: 90%;
+    margin-right: 5%;
+    margin-left: 5%;
+    border-radius: 7px;
+}
+table {
+    text-align: left;
+    table-layout: fixed;
+    margin-top: 30px;
+    width: 100%;
+    /*border: 3px solid black;
+    border-color: black;*/
+    border-collapse: collapse;
+    border-radius: 10px;
+    font-size:15px;
+    font-weight: bold;
+}
+h1 { 
+    display: block;
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.tabbutton {
+    padding: 5px 15px 5px 15px;
+    width: 80px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 25px;
+    color: white;
+    margin: 5px 0px 5px 0px;
+}
+
+.update{
+    background: rgb(25, 175, 0);
+}
+.delete{
+    background: red;
+}
+
+.box-close {
+    position:absolute;
+    top: 0;
+    right: 15px;
+    color: #fe0606;
+    text-decoration: none;
+    font-size: 30px;
+}
+.cancel{
+    position: relative;
+    background-color: #fe0606;
+    padding: 3px;
+    font-weight: bolder;
+    margin-top: 5%;
+}
+.save{
+    position: relative;
+    background-color: greenyellow;
+    padding: 3px;
+    margin-top: 5%;
+    font-weight: bolder;
+}
+.tarea{
+    width: 100%;
+    resize: none;
+}
+.tinput{
+    width: 100%;
+    resize: none;
+}
+.reqlabel{
+    width: auto;
+    height: auto;
+    padding: 5px;
+}
+.reqtext{
+    border: none;
+    outline: none;
+    text-shadow: 0px 0px 0px transparent;
+    width: 100%;
+    height: auto;
+    resize: none;
+    caret-color: transparent;
+}
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    height: auto;
+    visibility: hidden;
+    border: 1px solid grey;
+    border-color: grey;
+    border-radius: 7px;
+    margin: 1px 1px 1px 1px;
+}
+.modal:target {
+    visibility: visible;
+}
+.modal::before{
+    visibility: visible;
+}
+.open-popup{
+    visibility: visible;
+}
+.content {
+    background: white;
+    border-radius: 7px;
+    margin: 1px 1px 1px 1px;
+
+}
+.confirm{
+    text-align: center;
+}
+.popup{
+    position: relative;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.user-form-message {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 0.5em;
+    color: white;
+    border-radius: 25px;
+}
+.user-form-message.error {
+    background: rgb(255, 0, 0);
+}
+
+.user-form-message.success {
+    background: rgb(25, 175, 0);
+}
+.stateselect{
+    width: 50%;
+}
+
+.driver-message-box{
+    text-align: center;
+    width: 25%;
+    height: auto;
+    border-color: grey;
+    border-radius: 7px;
+}
+.message{
+    height: 100px;
+    width: 100%;
+    resize: none;
+}

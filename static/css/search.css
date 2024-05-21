@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+
+.window {
+    font-size: large;
+    width: 90%;
+    margin: 0 auto;
+    min-height: 100vh;
+    min-height: 100vh;
+    position: relative;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-window {
+    margin-top: 10%;
+    width: 70%;
+    height: 80%;
+    position: relative;
+    background-color: white;
+    border-radius: 10px
+}
+
+.search-header {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.stop-name{
+    padding-left: 1%;
+    width: 40%;
+    text-align: left;
+    vertical-align: top;
+}
+
+
+.hours{
+    width: 20%;
+    text-align: left;
+}
+
+.timetable{
+    width: 100%;
+}
+
+.all-lines {
+    font-size: larger;
+    display: flex;
+    flex-direction: column;
+}
+
+.ride {
+    padding: 20px;
+}
+
+.stop-time {
+    display: flex;
+    flex-direction: row;
+}
+
+.stop {
+    width: 70%;
+}
+
+.departure-time {
+    width: 30%;
+}
+
+hr {
+    border: 1px solid black;
+    margin-bottom: 10px;
+}
+
+th{
+    text-align: left;
+}
+
+.top-border{
+    border-top: 1px solid black;
+}
+
+.back-button{
+    font-size: larger;
+    background-color: cornflowerblue;
+    position: fixed;
+    top: 50%;
+    left: 10%;
+    transform: translate(-50%, -50%);
+    height: 50px;
+    width: 50px;
+    border-radius: 20%;
+}

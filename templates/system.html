@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/system.css') }}">
+    {% block head %}
+        <title>Admin System</title>
+    {% endblock %}
+</head>
+<body>
+    <div class="main-block">
+        <header class="header">
+            <a href="#" class="logo">Transport company</a>
+            <nav class="navbar">
+                <form action="{{ url_for('auth.logout') }}" method="GET" style="display: inline;">
+                    <button name="action" class="log-out-button" type="submit" value="log-out">Log out</button>
+                </form>
+            </nav>  
+        </header>
+        {% block body %}{% endblock %}
+    </div>
+</body>
+</html>

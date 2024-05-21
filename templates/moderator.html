@@ -1,0 +1,466 @@
+{% extends 'system.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/moderator.css') }}">
+    <title>Admin system | Moderator</title>
+{% endblock %}
+
+{% block body %}
+    <div class="main-window">
+        <datalist id="STOP">
+            {% for stop in stops %}
+                <option>{{ stop.name }}</option>
+            {% endfor %}
+        </datalist>
+        <datalist id="TL">
+            {% for traffic_line in traffic_lines %}
+                <option>{{ traffic_line.line_name }}</option>
+            {% endfor %}
+        </datalist>
+        <div class="manage-traffic-line">
+            <h1 class="traffic-line-header">Manage traffic line</h1>
+            <form action="{{ url_for('moderator.add') }}" method="POST">
+                <div class="create-traffic-line">
+                    <h2 class="create-line-header">Create new traffic line</h2> 
+                    <div class="inputbox">
+                        <div class="input-container">
+                            <label for="">Insert name of traffic line:</label>
+                            <input name="line_name" id="line_name" type="text" placeholder=""
+                                    autocomplete="off" required>
+                        </div>
+                        <button name="action" class="create-line-button" type="submit" value="create-line">Create</button>
+                    </div>
+                    {% with messages = get_flashed_messages(category_filter=["errorCTL"]) %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="error">
+                                    <a>{{ message }}</a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    {% with messages = get_flashed_messages(category_filter=["successCTL"]) %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="success">
+                                    <a>{{ message }}</a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </form>
+            <form action="{{ url_for('moderator.add') }}" method="POST">
+                <div class="delete-traffic-line">
+                    <h2 class="delete-line-header">Delete traffic line</h2>
+                    <div class="inputbox">
+                        <div class="input-container">
+                            <label for="">Select name of traffic line:</label>
+                            <select name="line_name" id="line_name" autocomplete="off" required>
+                                {% for traffic_line in traffic_lines %}
+                                    <option value="{{ traffic_line.line_name }}">{{ traffic_line.line_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button name="action" class="delete-line-button" type="submit" value="delete-line">Delete</button>
+                    </div>
+                    {% with messages = get_flashed_messages(category_filter=["errorDTL"]) %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="error">
+                                    <a>{{ message }}</a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    {% with messages = get_flashed_messages(category_filter=["successDTL"]) %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="success">
+                                    <a>{{ message }}</a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </form>
+        </div>
+        <div class="manage-stops">
+            <h1 class="stop-header">Manage stops</h1>
+            <form action="{{ url_for('moderator.add') }}" method="POST">
+                <div class="create-stop">
+                    <h2 class="create-stop-header">Create new stop</h2>
+                    <div class="inputbox">
+                        <div class="input-container">
+                            <label for="">Insert name of new stop:</label>
+                            <input name="name" id="name" type="text" placeholder="" 
+                                    autocomplete="off" required>
+                        </div>
+                        <button name="action" class="create-stop-button" type="submit" value="create-stop">Create</button>
+                    </div>
+                    {% with messages = get_flashed_messages(category_filter=["errorCS"]) %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="error">
+                                    <a>{{ message }}</a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    {% with messages = get_flashed_messages(category_filter=["successCS"]) %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="success">
+                                    <a>{{ message }}</a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </form>
+            <form action="{{ url_for('moderator.add') }}" method="POST">
+                <div class="delete-stop">
+                    <h2 class="delete-stop-header">Delete stop</h2>
+                    <div class="inputbox">
+                        <div class="input-container">
+                            <label for="">Select stop name:</label>
+                            <select name="name" id="name" autocomplete="off" required>
+                                {% for stop in stops %}
+                                    <option value="{{ stop.name }}">{{ stop.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button name="action" class="delete-stop-button" type="submit" value="delete-stop">Delete</button>
+                    </div>
+                    {% with messages = get_flashed_messages(category_filter=["errorDS"]) %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="error">
+                                    <a>{{ message }}</a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    {% with messages = get_flashed_messages(category_filter=["successDS"]) %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="success">
+                                    <a>{{ message }}</a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </form>
+        </div>
+        <div class="add-stops">
+            <h1 class="add-stops-header">Add stops to traffic line</h1>
+            <div class="manage-tl">
+                <div class="inputs">
+                    <div class="select-tl">
+                        <form action="{{ url_for('system') }}" method="GET">
+                            <div class="select-tl-container">
+                                <label for="">Select traffic line:</label>
+                                <select class="tl-select" name="name" id="name" autocomplete="off" required>
+                                    {% if not selected_line %}
+                                        <option value="" selected>Please select a traffic line</option>
+                                    {% else %}
+                                        <option value="{{ selected_line }}">
+                                            {{ selected_line }}
+                                        </option>
+                                    {% endif %}
+                                    {% for traffic_line in traffic_lines %}
+                                        {% if not selected_line == traffic_line.line_name %}
+                                            <option value="{{ traffic_line.line_name }}">
+                                                {{ traffic_line.line_name }}
+                                            </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button class="select-tl-button" type="submit">Select</button>
+                        </form>
+                    </div>
+                    <h2>New stop in traffic line</h2>
+                    <form action="{{ url_for('moderator.add_stop_to_tl') }}" method="POST">
+                        <div class="add-stops-to-tl">
+                            <label for="">Add stops:</label>
+                            <select name="new_name" id="new_name" autocomplete="off" required>
+                                {% for stop in stops %}
+                                    <option value="{{ stop.name }}">{{ stop.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="">Stop index from start stop:</label>
+                            <input name="from_start" id="from_start" type="text"
+                                    placeholder="" autocomplete="off" required>
+                            <button name="action" class="add-new-stops-button" type="submit" value="add-new-stop">
+                                Add new stop
+                            </button>
+                            {% with messages = get_flashed_messages(category_filter=["errorAS"]) %}
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <label class="error">{{ message }}</label>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                    </form>
+                </div>
+                <div class="list-of-stops">
+                    <div class="delete-column">
+                        <form action="{{ url_for('moderator.delete_stop_from_tl') }}" method="POST">
+                        {% if timestop %}
+                            {% for stop in timestop %}
+                                <button name="action" class="delete-stop-from-tl" type="submit" value="{{ stop.id }}">
+                                    &#10005;
+                                </button><br>
+                            {% endfor %}
+                        {% endif %}
+                        </form>
+                    </div>
+                    <div class="stops">
+                        {% with messages = get_flashed_messages(category_filter=['infoS']) %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <label>{{ message }}</label>
+                                {% endfor %}
+                            {% elif timestop %}
+                                {% for stop in timestop %}
+                                    <label for="" 
+                                        {% if loop.first or loop.last %}    
+                                            class="underscored"
+                                        {% endif %}>
+                                        {{ stop.name }}
+                                    </label><br>
+                                {% endfor %}
+                            {% else %}
+                                <label>This line does not have any stops.</label>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                    <div class="stops-number">
+                        {% if timestop %}
+                            {% for stop in timestop %}
+                                <label>{{ stop.from_start }}</label><br>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="add-vehicle">
+            <h1 class="add-vehicle-header">Manage vehicles</h1>
+            <div class="manage-vehicles">
+                <form action="{{ url_for('moderator.add_vehicle') }}" method="POST">
+                    <div class="inputs">
+                        <h2 class="new-vehicle-header">Add new vehicle</h2>
+                        <label for="">VIN</label>
+                        <input name="vin" id="vin" type="text"
+                                placeholder="" autocomplete="off" required>
+                        <label for="">Manufacturer</label>
+                        <input name="manufacturer" id="manufacturer" type="text"
+                                placeholder="" autocomplete="off" required>
+                        <label for="">Type</label>
+                        <input name="type" id="type" type="text"
+                                placeholder="" autocomplete="off" required>
+                        <label for="">Seats</label>
+                        <input name="seats" id="seats" type="text"
+                                placeholder="" autocomplete="off" required>
+                        <label for="">State</label>
+                        <input name="state" id="state" type="text"
+                                placeholder="" autocomplete="off" required>
+                        <button name="action" class="add-vehicle-button" type="submit" value="add-vehicle">
+                            Add new vehicle
+                        </button>
+                        {% with messages = get_flashed_messages(category_filter=["errorV"]) %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <p class="error">{{ message }}</p>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                </form>
+                <div class="list-of-vehicles">
+                    {% for vehicle in vehicles %}   
+                        <form action="{{ url_for('moderator.delete_vehicle') }}" method="POST">
+                            <div class="vehicle-stats">
+                                <p>
+                                    <strong>
+                                        Vin
+                                    </strong>:
+                                    <span class="margin">
+                                        {{ vehicle.vin }}
+                                    </span>
+                                </p>                                
+                                <button name="action" class="edit-vehicle-button" type="submit" 
+                                            value="{{ vehicle.vin }}" title="Delete vehicle">
+                                    &#10005;
+                                </button>                                
+                            </div>
+                        </form> 
+                        <form action="{{ url_for('moderator.edit_manufacturer') }}" method="POST">
+                            <div class="vehicle-stats">
+                                <p>
+                                    <strong>Manufacturer</strong>:
+                                    <input name="vehicle_manufacturer" id="vehicle_manufacturer" type="text"
+                                            placeholder="{{ vehicle.manufacturer }}" autocomplete="off" required>
+                                </p>
+                                <button name="action" class="edit-vehicle-button" type="submit" 
+                                            value="{{ vehicle.vin }}" title="Edit vehicle manufacturer">
+                                    &#9998;
+                                </button>
+                            </div>
+                        </form>
+                        <form action="{{ url_for('moderator.edit_type') }}" method="POST">
+                            <div class="vehicle-stats">
+                                <p>
+                                    <strong>Type</strong>:
+                                    <input name="vehicle_type" id="vehicle_type" type="text"
+                                            placeholder="{{ vehicle.type }}" autocomplete="off" required>
+                                </p>
+                                <button name="action" class="edit-vehicle-button" type="submit"
+                                            value="{{ vehicle.vin }}" title="Edit vehicle type">
+                                    &#9998;
+                                </button>
+                            </div>
+                        </form>
+                        <div class="vehicle-stats">
+                            <p>
+                                <strong>
+                                    Inspection date
+                                </strong>:
+                                <span class="margin">
+                                    {{ vehicle.inspect_date }}
+                                </span>
+                            </p>
+                        </div>
+                        <form action="{{ url_for('moderator.edit_seats') }}" method="POST">
+                            <div class="vehicle-stats">
+                                <p>
+                                    <strong>Seats</strong>:
+                                    <input name="vehicle_seats" id="vehicle_seats" type="text"
+                                            placeholder="{{ vehicle.seats }}" autocomplete="off" required>
+                                </p>
+                                <button name="action" class="edit-vehicle-button" type="submit" 
+                                            value="{{ vehicle.vin }}" title="Edit vehicle seats">
+                                    &#9998;
+                                </button>
+                            </div>
+                        </form>
+                        <div class="vehicle-stats">
+                            <p>
+                                <strong>
+                                    State
+                                </strong>:
+                                <span class="margin">
+                                    {{ vehicle.state }}
+                                </span>
+                            </p>
+                        </div>
+                        {% if vehicle.malfunction %}
+                            <p>
+                                <strong>
+                                    Malfunctions
+                                </strong>:
+                            </p>
+                            {% for malfunction in vehicle.malfunction %}
+                                <div class="malfunction">
+                                    <div class="message">
+                                        {{ malfunction.message }}
+                                    </div>
+                                    <form action="{{ url_for('moderator.create_request') }}" method="POST">
+                                        <div class="create-request">
+                                            <button name="action" class="create-request-button" type="submit"
+                                                    title="Create new request" value="{{ malfunction.id }}">
+                                                &#10010;
+                                            </button>
+                                        </div>
+                                    </form>
+                                    {% if malfunction.created %}
+                                        <p style="color: green;">
+                                            &#10004;
+                                        </p>
+                                    {% else %}
+                                        <p style="color: red;">
+                                            &#10006;
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        <hr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="add-times">
+            <h1 class="add-times-header">Add departure times</h1>
+            <div class="list">
+                {% with messages = get_flashed_messages(category_filter=["errorDEP"]) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="error">
+                                {{ message }}
+                            </p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                {% for entry in stops_in_tl %}
+                    {% if entry.stops %}
+                        <h2 class="line-header">Traffic line {{ entry.line.line_name }}</h2>
+                        <div class="traffic-line">
+                            <div class="from-to">
+                                <h3 class="from-to-header">
+                                    {{ entry.line.starting_stop }}
+                                    &#10140;
+                                    {{ entry.line.last_stop }}
+                                </h3>
+                                <form action="{{ url_for('moderator.add_departures') }}" method="POST">
+                                    {% for stop in entry.stops %}
+                                        <div class="stop-list">
+                                            <input type="hidden" name="stop_name" value="{{ stop.stop_name }}">        
+                                            <p>
+                                                {{ stop.stop_name }}
+                                            </p>
+                                            <input name="time_{{ stop.stop_name }}" id="time_{{ stop.stop_name }}" type="text" 
+                                                    placeholder="HH:MM" autocomplete="off" required>
+                                        </div>
+                                    {% endfor %}
+                                    <button name="action" class="create-departure" type="submit" value="{{ entry.line.line_name }}">
+                                        Create departures
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="vl"></div>
+                            <div class="from-to">
+                                <h3 class="from-to-header">
+                                    {{ entry.line.last_stop }}
+                                    &#10140;
+                                    {{ entry.line.starting_stop }}
+                                </h3>
+                                <form action="{{ url_for('moderator.add_departures') }}" method="POST">
+                                    {% for stop in entry.stops|reverse %}
+                                        <div class="stop-list">
+                                            <input type="hidden" name="stop_name" value="{{ stop.stop_name }}">
+                                            <input type="hidden" name="direction" value="back">        
+                                            <p>
+                                                {{ stop.stop_name }}
+                                            </p>
+                                            <input name="time_{{ stop.stop_name }}" id="time_{{ stop.stop_name }}" type="text"
+                                                    placeholder="HH:MM" autocomplete="off" required>
+                                        </div>
+                                    {% endfor %}
+                                    <button name="action" class="create-departure" type="submit" value="{{ entry.line.line_name }}">
+                                        Create departures
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <hr>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>  
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Search traffic line</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="window">
+        <button class="back-button" onclick="location.href='/'">&#11013;</button>
+        <div class="search-window">
+            <h1 class="search-header">Traffic line {{ line.line_name }}</h1>
+            <h2 class="search-header">{{line.starting_stop}} ➜ {{line.last_stop}}</h2>
+            <div class="all-lines">
+                <table class="upper-table">
+                    <th style="padding-left: 1%;">Stop name</th>
+                    <th>departure time</th>
+                    {% for stop in depsf %}
+                        <tr>
+                            <td class="stop-name top-border">
+                                {{ stop }}
+                            </td>
+                            <td class="top-border">
+                                <table class="timetable">
+                                    {% for hours in depsf[stop] %}
+                                        {% if depsf[stop][hours] %}
+                                        <tr>
+                                            <td class="hours">
+                                                {{hours}}
+                                            </td>
+                                            <td>
+                                            {% for i in depsf[stop][hours] %}
+                                            {{i}}
+                                            {% endfor %}
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </table>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <h2 class="search-header">{{line.last_stop}} ➜ {{line.starting_stop}}</h2>
+            <div class="all-lines">
+                <table class="upper-table">
+                    <th style="padding-left: 1%;">Stop name</th>
+                    <th>departure time</th>
+                    {% for stop in depst %}
+                        <tr>
+                            <td class="stop-name top-border">
+                                {{ stop }}
+                            </td>
+                            <td class="top-border">
+                                <table class="timetable">
+                                    {% for hours in depst[stop] %}
+                                        {% if depst[stop][hours] %}
+                                        <tr>
+                                            <td class="hours">
+                                                {{hours}}
+                                            </td>
+                                            <td>
+                                            {% for i in depst[stop][hours] %}
+                                            {{i}}
+                                            {% endfor %}
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </table>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,168 @@
+{% extends 'system.html' %}
+
+{% block head %}
+    <title>Admin system | Engineer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/engineer.css') }}">
+    <script type="text/javascript">
+        // When the user clicks on div, open the popup
+        function open_popup(me) {
+          var pp = document.getElementById(me)
+          pp.classList.add("open-popup");
+        }
+        function close_popup(me) {
+          var pp = document.getElementById(me)
+          pp.classList.remove("open-popup");
+        }
+    </script>
+{% endblock %}
+
+{% block body %}
+
+<div class="table-container">
+    {% with messages = get_flashed_messages(category_filter=["successDEM","successUEM"]) %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="user-form-message success">
+                    <a>{{ message }}</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% with messages = get_flashed_messages(category_filter=["errorDEM","errorUEM"]) %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="user-form-message error">
+                    <a>{{ message }}</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <h1>My maintenance</h1>
+        <table style="text-align: center;">
+            <tr>
+                <th>ticketID</th>
+                <th>vin</th>
+                <th>moderator (id)</th>
+                <th>date</th>
+                <th>request</th>
+                <th>report</th>
+                <th>state</th>
+                <th>change</th>
+            </tr>
+            {% for i in maintenance %}
+            {% if i.state != "done" %}
+            <tr>
+                <td style="text-align: center;">{{i.ticketID}}</td>
+                <td>{{i.vin}}</td>
+                <td>
+                    {% for j in mods %}
+                        {% if j.id is sameas i.moderator %}
+                            {{j.username}}
+                        {% endif %}
+                    {% endfor %}
+                    ({{i.moderator}})
+                </td>
+                <td class="date">{{i.date}}</td>
+                <td class="req">
+                    <div style="max-height: 120px;">
+                        {{i.request}}
+                    </div>
+                </td>
+                <td class="rep">
+                    <div style="max-height: 120px;">
+                        {{i.report}}
+                    </div>
+                </td>
+                <td class="state">
+                    <div style="max-height: 120px; text-align: center;">
+                        {{i.state}}
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <button type="submit" class="tabbutton update" onclick="open_popup('update-{{i.ticketID}}')">update</button>
+                    </div>
+                </td>
+            </tr>
+            <div id="update-{{i.ticketID}}" class="modal">
+                <div class="content">
+                    <form action="{{ url_for('engineer.update_ticket') }}" method="POST">
+                        <div class="popup">
+                            <h3 style="width: 100%; text-align: center;" for="report">ticketID {{i.ticketID}}</h3>
+                            <label class="reqlabel">request :</label>
+                            <br>
+                            <textarea class="reqtext" maxlength="1024" spellcheck="false">{{i.request}}</textarea>
+                            <br>
+                            <label>report:</label>
+                            <textarea name="report" spellcheck="false" maxlength="1024" class="tarea" id="updateinput" rows="4">{{i.report}}</textarea>
+                            <label class="user-form-label" for="role">Select status:</label>
+                            <br>
+                            <select name="state" class="stateselect" name="state" id="state">
+                                <option value="started" {% if i.state == 'started' %}selected{% endif %}>started</option>
+                                <option value="in process" {% if i.state == 'in process' %}selected{% endif %}>in process</option>
+                                <option value="done" {% if i.state == 'done' %}selected{% endif %}>done</option>
+                                <option value="unrepairable" {% if i.state == 'unrepairable' %}selected{% endif %}>unrepairable</option>
+                            </select>
+                            <div style="text-align: center;">
+                                <button type="button" name="dontyetsave" onclick="open_popup('update-{{i.ticketID}}-confirm')" class="tabbutton update">save</button>
+                                <button type="button" name="cancel" class="tabbutton delete" onclick="close_popup('update-{{i.ticketID}}')">cancel</button>
+                            </div>
+                            <div id="update-{{i.ticketID}}-confirm" class="modal content confirm">
+                                Are you sure?
+                                <button name="save" class="tabbutton update" onclick="location.href='#update{{i.ticketID}}'" value="{{i.ticketID}}">yes</button>
+                                <button type="button" name="cancel" class="tabbutton delete" onclick="close_popup('update-{{i.ticketID}}-confirm')">no</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+        {% endfor %}
+        </table>
+        <h1>History of my maintenance</h1>
+        <table style="text-align: center;">
+            <tr>
+                <th>ticketID</th>
+                <th>vin</th>
+                <th>moderator (id)</th>
+                <th>date</th>
+                <th>request</th>
+                <th>report</th>
+                <th>state</th>
+            </tr>
+            {% for i in maintenance %}
+            {% if i.state == "done" %}
+            <tr>
+                <td >{{i.ticketID}}</td>
+                <td>{{i.vin}}</td>
+                <td>
+                    {% for j in mods %}
+                        {% if j.id is sameas i.moderator %}
+                            {{j.username}}
+                        {% endif %}
+                    {% endfor %}
+                    ({{i.moderator}})
+                </td>
+                <td class="date">{{i.date}}</td>
+                <td class="req">
+                    <div style="max-height: 120px;">
+                        {{i.request}}
+                    </div>
+                </td>
+                <td class="rep">
+                    <div style="max-height: 120px;">
+                        {{i.report}}
+                    </div>
+                </td>
+                <td class="state">
+                    <div style="max-height: 120px; text-align: center;">
+                        {{i.state}}
+                    </div>
+                </td>
+            </tr>
+        {% endif %}
+        {% endfor %}
+        </table>
+    </div>
+    
+{% endblock %}

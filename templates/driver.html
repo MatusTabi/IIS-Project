@@ -1,0 +1,65 @@
+{% extends 'system.html' %}
+
+{% block head %}
+    <title>Admin system | Driver</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/engineer.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="table-container driver-message-box">
+    <form action="{{ url_for('driver.send_message') }}" method="POST">
+        <h3>Report vehicle failure</h3>
+        <div>
+            <textarea name="report" class="message" maxlength="1024" spellcheck="false"></textarea>
+        </div>
+        <div>
+            <label for="vehicle">choose vehicle: </label>
+            <select style="width: auto;" name="vehicle" id="vehicle">
+                {% for i in vehicles %}
+                <option value="{{i.vin}}">{{i.vin}}</option>
+                {% endfor %}
+            </select>
+            <button name="action" type="submit" value="send" class="tabbutton update">send</button>
+        </div>
+    </form>
+    {% with messages = get_flashed_messages(category_filter=["successSRM"]) %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="user-form-message success">
+                    <a>{{ message }}</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% with messages = get_flashed_messages(category_filter=["errorSRM"]) %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="user-form-message error">
+                    <a>{{ message }}</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+<div class="table-container">
+    <h1>My rides</h1>
+        <table style="text-align: center;">
+            <tr>
+                <th>ride id</th>
+                <th>line name</th>
+                <th>vin</th>
+                <th>start time</th>
+                <th>end time</th>
+            </tr>
+            {% for i in rides %}
+            <tr>
+                <td>{{i.id}}</td>
+                <td>{{i.line_name}}</td>
+                <td>{{i.vehicle_vin}}</td>
+                <td class="date">{{i.start_time}}</td>
+                <td class="date">{{i.end_time}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Home page</title>
+{% endblock %}
+
+{% block body %}
+    <section>
+        <div class="form-box">
+            <div class="form-value">
+                <form action="{{ url_for('search') }}" method="GET">
+                    <h2>Search lines</h2>
+                    <datalist id="lines">
+                        {% for line in lines %}
+                            <option>{{ line.line_name }}</option>
+                        {% endfor %}
+                    </datalist>
+                    <div class="inputbox">
+                        <input list="lines" name="line" type="traffic_lines" placeholder="" required>
+                        <label for="">Select traffic line</label>
+                    </div>
+                    <button class="search-button">Search</button>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

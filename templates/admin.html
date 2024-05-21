@@ -1,0 +1,165 @@
+{% extends 'system.html' %}
+
+{% block head %}
+    <title>Admin system | Administrátor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="admin-window">
+        <div class="roles">
+            <h2 class="roles-header">Change role:</h2>
+            <div class="roles-container">
+                <form action="{{ url_for('system') }}" method="POST" class="role">
+                    <input type="hidden" name="user_role" value="moderator">
+                    <button name="action" class="role-button" type="submit" value="become-user">Moderator</button>
+                </form>
+                <form action="{{ url_for('system') }}" method="POST" class="role">
+                    <input type="hidden" name="user_role" value="dispatcher">
+                    <button name="action" class="role-button" type="submit" value="become-user">Dispatcher</button>
+                </form>
+                <form action="{{ url_for('system') }}" method="POST" class="role">
+                    <input type="hidden" name="user_role" value="engineer">
+                    <button name="action" class="role-button" type="submit" value="become-user">Engineer</button>
+                </form>
+                <form action="{{ url_for('system') }}" method="POST" class="role">
+                    <input type="hidden" name="user_role" value="driver">
+                    <button name="action" class="role-button" type="submit" value="become-user">Driver</button>
+                </form>
+            </div>
+        </div>
+        <div class="form-container">
+            <h2 class="form-header">Create new user</h2>
+            <form action="{{ url_for('admin.create_user') }}" method="POST">
+                <div class="form-group">
+                    <label class="form-label" for="username">Insert name of user:</label>
+                    <input class="form-input" name="username" id="username" type="text" placeholder="Jan Novák" autocomplete="off" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="password">Insert password:</label>
+                    <input class="form-input" name="password" id="password" type="password" placeholder="********" autocomplete="off" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="role">Select role:</label>
+                    <select class="form-select" name="role" id="role">
+                        <option value="admin">Admin</option>
+                        <option value="moderator">Moderator</option>
+                        <option value="engineer">Engineer</option>
+                        <option value="dispatcher">Dispatcher</option>
+                        <option value="driver">Driver</option>
+                    </select>
+                </div>
+                <div class="form-button-container">
+                    <button name="action" type="submit" value="create-user">Create</button>
+                </div>
+                {% with messages = get_flashed_messages(category_filter=["errorCU"]) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="form-message error">
+                                <a>{{ message }}</a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                {% with messages = get_flashed_messages(category_filter=["successCU"]) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="form-message success">
+                                <a>{{ message }}</a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </form>
+        </div>
+        <div class="list-container">
+            <h2 class="list-header">List of users</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.role }}</td>
+                            <td>
+                                <div class="list-action-container">
+                                    <form action="{{ url_for('system') }}" method="POST">
+                                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                                        <button class="update" name="action" type="submit" value="show-modal">Update</button>
+                                    </form>
+                                    <form action="{{ url_for('admin.delete_user') }}" method="POST">
+                                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                                        <button name="action" class="delete" type="submit" value="delete-user">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if show_modal and selected_user %}
+                <div class="overlay">
+                    <div class="modal">
+                        <form action="{{ url_for('admin.update_user') }}" method="POST">
+                            <h2 class="form-header">Update user</h2>
+                            <input type="hidden" name="user_id" value="{{ selected_user.id }}">
+
+                            <div class="form-group">
+                                <label class="form-label" for="username">Username:</label>
+                                <input class="form-input" type="text" name="username" value="{{ selected_user.username }}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="username">Password:</label>
+                                <input class="form-input" type="password" name="password" placeholder="********" autocomplete="off" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="role">Select role:</label>
+                                <select class="form-select" name="role" id="role">
+                                    <option value="admin" {% if selected_user.role == 'admin' %}selected{% endif %}>Admin</option>
+                                    <option value="moderator" {% if selected_user.role == 'moderator' %}selected{% endif %}>Moderator</option>
+                                    <option value="engineer" {% if selected_user.role == 'engineer' %}selected{% endif %}>Engineer</option>
+                                    <option value="dispatcher" {% if selected_user.role == 'dispatcher' %}selected{% endif %}>Dispatcher</option>
+                                    <option value="driver" {% if selected_user.role == 'driver' %}selected{% endif %}>Driver</option>
+                                </select>
+                            </div>
+                            <div class="form-button-container">
+                                <button name="action" class="update" type="submit" value="update-user">Save</button>
+                            </div>
+                        </form>
+                        <div class="form-button-container">
+                            <form action="{{ url_for('system') }}" method="POST">
+                                <button name="action" class="delete" type="submit" value="close-modal">Close</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% with messages = get_flashed_messages(category_filter=["errorUU", "errorDU"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="form-message error">
+                        <a>{{ message }}</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+            {% with messages = get_flashed_messages(category_filter=["successUU", "successDU"]) %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="form-message success">
+                            <a>{{ message }}</a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+{% endblock %}
